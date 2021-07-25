@@ -4,12 +4,12 @@ use rand::Rng;
 
 fn main() {
     let msg = "Enter 1 for guessing game, 2 for fibonacci, 3 for first word, 4 to quit";
-    let option = _read_num(msg);
+    let option = _read_num(Option::Some(msg));
     match option {
         1 => guessing_game(),
         2 => {
             println!("Enter 'n' for fibonacci sequence.");
-            println!("{}", nth_fibonacci(_read_num("")));
+            println!("{}", nth_fibonacci(_read_num(Option::None)));
         },
         3 => {
             let msg = String::from("Enter some text");
@@ -25,7 +25,7 @@ fn guessing_game() {
     println!("Guess the number from 1 to {}!", upper);
     let secret_number = rand::thread_rng().gen_range(1..upper+1);
     loop {
-        let guess = _read_num("Please input your guess.");
+        let guess = _read_num(Option::Some("Please input your guess."));
         println!("You guessed: {}", guess);
 
         match guess.cmp(&secret_number) {
@@ -66,10 +66,11 @@ fn first_word(s: &str) -> &str {
     &s[..]
 }
 
-fn _read_num(mut msg: &str) -> u32 {
-    if msg.eq("") {
-        msg = "Please enter a number.";
-    }
+fn _read_num(some_msg: Option<&str>) -> u32 {
+    let msg = match some_msg {
+        None => "Please enter a number.",
+        Some(msg) => msg
+    };
     loop {
         let n: u32 = match _read_text(&msg).trim().parse() {
             Ok(num) => num,
