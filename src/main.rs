@@ -7,22 +7,8 @@ fn main() {
     let option = _read_num(Option::Some(msg));
     match option {
         1 => guessing_game(),
-        2 => {
-            println!("Enter 'n' for fibonacci sequence.");
-            let num = _read_num(Option::None);
-            let suffix = match num {
-                1 => "st",
-                2 => "nd",
-                3 => "rd",
-                _ => "th"
-            };
-            println!("{}{} fibonacci number is {}", num, suffix, nth_fibonacci(num));
-        },
-        3 => {
-            let msg = String::from("Enter some text");
-            let string = _read_text(&msg);
-            println!("First word is {}", first_word(&string));
-        },
+        2 => nth_fibonacci(),
+        3 => first_word(),
         _ => println!("bye")
     }
 }
@@ -46,7 +32,19 @@ fn guessing_game() {
     }
 }
 
-fn nth_fibonacci(mut n: u32) -> u32 {
+fn nth_fibonacci() {
+    println!("Enter 'n' for fibonacci sequence.");
+    let num = _read_num(Option::None);
+    let suffix = match num {
+        1 => "st",
+        2 => "nd",
+        3 => "rd",
+        _ => "th"
+    };
+    println!("{}{} fibonacci number is {}", num, suffix, _nth_fibonacci(num));
+}
+
+fn _nth_fibonacci(mut n: u32) -> u32 {
     if n <= 2 {
         return 1;
     }
@@ -62,8 +60,14 @@ fn nth_fibonacci(mut n: u32) -> u32 {
     return j;
 }
 
+fn first_word() {
+    let msg = String::from("Enter some text");
+    let string = _read_text(&msg);
+    println!("First word is {}", _first_word(&string));
+}
+
 // assumes no leading spaces
-fn first_word(s: &str) -> &str {
+fn _first_word(s: &str) -> &str {
     let bytes = s.as_bytes();
     for (i, &item) in bytes.iter().enumerate() {
         if item == b' ' {
