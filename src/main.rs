@@ -9,7 +9,14 @@ fn main() {
         1 => guessing_game(),
         2 => {
             println!("Enter 'n' for fibonacci sequence.");
-            println!("{}", nth_fibonacci(_read_num(Option::None)));
+            let num = _read_num(Option::None);
+            let suffix = match num {
+                1 => "st",
+                2 => "nd",
+                3 => "rd",
+                _ => "th"
+            };
+            println!("{}{} fibonacci number is {}", num, suffix, nth_fibonacci(num));
         },
         3 => {
             let msg = String::from("Enter some text");
