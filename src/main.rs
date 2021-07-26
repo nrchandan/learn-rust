@@ -1,8 +1,8 @@
-use std::io;
-use std::cmp::Ordering;
+use std::{cmp::Ordering, io};
 use rand::Rng;
 
 fn main() {
+    vector_play();
     let msg = "Enter 1 for guessing game, 2 for fibonacci, 3 for first word, 4 to quit";
     let option = _read_num(Option::Some(msg));
     match option {
@@ -48,16 +48,16 @@ fn _nth_fibonacci(mut n: u32) -> u32 {
     if n <= 2 {
         return 1;
     }
-    n = n - 2;
+    n -= 2;
     let mut i: u32 = 1;
     let mut j: u32 = 1;
     while n > 0 {
         let tmp = i + j;
         i = j;
         j = tmp;
-        n = n - 1;
+        n -= 1;
     }
-    return j;
+    j
 }
 
 fn first_word() {
@@ -74,14 +74,11 @@ fn _first_word(s: &str) -> &str {
             return &s[0..i];
         }
     }
-    &s[..]
+    s
 }
 
 fn _read_num(some_msg: Option<&str>) -> u32 {
-    let msg = match some_msg {
-        None => "Please enter a number.",
-        Some(msg) => msg
-    };
+    let msg = some_msg.unwrap_or("Please enter a number");
     loop {
         let n: u32 = match _read_text(&msg).trim().parse() {
             Ok(num) => num,
@@ -98,4 +95,12 @@ fn _read_text(msg: &str) -> String {
         .read_line(&mut n)
         .expect("Failed to read line");
     n
+}
+
+fn vector_play() {
+    let mut v = vec![100, 32, 57];
+    for i in &mut v {
+        *i += 50;
+    }
+    println!("{:?}", &v);
 }
