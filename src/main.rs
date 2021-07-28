@@ -13,15 +13,33 @@ fn main() {
     }
 }
 
+pub struct Guess {
+    value: i32
+}
+
+impl Guess {
+    pub fn new(value: i32) -> Guess {
+        if value < 1 || value > 100 {
+            panic!("Guess value must be between 1 and 100. Got {}", value);
+        }
+        Guess { value }
+    }
+
+    pub fn value(&self) -> i32 {
+        self.value
+    }
+}
+
 fn guessing_game() {
     let upper = 100;
     println!("Guess the number from 1 to {}!", upper);
     let secret_number = rand::thread_rng().gen_range(1..upper+1);
     loop {
-        let guess = _read_num(Option::Some("Please input your guess."));
-        println!("You guessed: {}", guess);
+        let guess = Guess::new(_read_num(Option::Some("Please input your guess.")));
+        // let guess = Guess{ value: _read_num(Option::Some("Please input your guess.")) };
+        println!("You guessed: {}", guess.value);
 
-        match guess.cmp(&secret_number) {
+        match guess.value().cmp(&secret_number) {
             Ordering::Less => println!("Too small"),
             Ordering::Greater => println!("Too big"),
             Ordering::Equal => {
@@ -44,7 +62,7 @@ fn nth_fibonacci() {
     println!("{}{} fibonacci number is {}", num, suffix, _nth_fibonacci(num));
 }
 
-fn _nth_fibonacci(mut n: u32) -> u32 {
+fn _nth_fibonacci(mut n: i32) -> u32 {
     if n <= 2 {
         return 1;
     }
@@ -77,10 +95,10 @@ fn _first_word(s: &str) -> &str {
     s
 }
 
-fn _read_num(some_msg: Option<&str>) -> u32 {
+fn _read_num(some_msg: Option<&str>) -> i32 {
     let msg = some_msg.unwrap_or("Please enter a number");
     loop {
-        let n: u32 = match _read_text(&msg).trim().parse() {
+        let n: i32 = match _read_text(&msg).trim().parse() {
             Ok(num) => num,
             Err(_) => continue
         };
