@@ -1,11 +1,15 @@
 mod guess;
+mod tweet;
+mod summary;
 
 use std::{cmp::Ordering, io};
 use rand::Rng;
 use guess::Guess;
+use tweet::tweet_play;
 
 fn main() {
     vector_play();
+    tweet_play();
     let msg = "Enter 1 for guessing game, 2 for fibonacci, 3 for first word, 4 to quit";
     let option = _read_num(Option::Some(msg));
     match option {
